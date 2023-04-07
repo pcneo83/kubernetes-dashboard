@@ -1,0 +1,34 @@
+environment: prod
+
+name: kubernetes-dashboard
+
+replicas: 1
+
+useSingleReplica: true
+
+image:
+  repository: kubernetesui/dashboard
+  tag: v2.7.0
+
+ports:
+  - containerPort: 9090
+    protocol: TCP
+
+serviceAccount:
+  create: true
+  name: kubernetes-dashboard
+
+disableHealthChecks: true
+
+entrypoint:
+  args:
+    - --namespace=apps
+    - --enable-skip-login
+    - --metrics-provider=none
+    - --api-log-level=DEBUG
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsUser: 1001
+  runAsGroup: 2001
